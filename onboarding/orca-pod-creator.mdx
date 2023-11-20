@@ -1,0 +1,115 @@
+---
+title: "ORCA Pod Creator"
+description: "In this tutorial you'll learn how to use the ORCA Pod Creator"
+---
+
+OPC (ORCA Pod Creator) is gonna be used `orca-pulse` to communicate with ORCA. `orca-pulse` is just a Node.js library that has some functions which helps to call the functions of the user container.
+
+
+
+## Prerequisites
++ You should have installed [Node.js](https://nodejs.org/)(version 18.16.1).
++ User Container image must the `healthz` API Endpoint which is used for checking the health of the user container. <br />
+    Health API must be in the all the user's container images. There is structure to create a `healthz` endpoint below example for nodeJS
+    ``` javascript JavaScript
+    // Endpoint name and method must be `healthz` and `POST`. It should return status code 200 when it hits
+    (req.url === "/healthz" && req.method === "POST") {
+            const healthzcheck = {
+                message: "OK",
+                status: 200,
+            };
+            res.end(JSON.stringify(healthzcheck));
+        }
+    ```
+
+
+### 1. Installing `orca-pulse`
+To install `orca-pulse` run the following command.
+
+```bash Terminal
+npm i orca-pulse
+```
+
+### 2. Using `orca-pulse`
+
+Import `orca-pulse` in your code
+
+```javascript JavaScript
+const { OrcaPulse } = require("orca-pulse");
+```
+
+Create `OrcaPulse` instance from `orca-pulse`
+
+```javascript JavaScript
+const orca = new OrcaPulse({
+    podImageUrl: <podImageUrl>,
+    podId: <podId>,
+    orcaUrl: <orcaUrl>,
+});
+```
+
+-   `podImageUrl`: It is a user container image URL.
+-   `podId`: It is a task ID which would be unique.
+-   `orcaUrl`: By default, it is `ws://localhost:3003`. But, it can be changed by ORCA Node Operator.
+
+### 3. Call arbitrary function 
+
+In the below example we showed you how you can make a request to the user container for calling any function.
+
+```javascript JavaScript
+orca.podCall("httpTest", {
+    title: "test",
+    description: "test",
+    completed: "false",
+})
+    .then((res) => {
+        console.log("logging http request", res);
+    })
+    .catch((err) => {
+        console.log("logging error", err);
+    });
+```
+
+### 4. Read the file from user container
+
+Below is the syntax of code which can be used to read the file from user container.
+
+```javascript JavaScript
+const ss = require("socket.io-stream");
+
+// filePathInOutDirectory can be any path of the file inside the out directory of the container
+// e.g.: "/temp/abc.csv" or any file extension
+nameofFileToStream = "test.txt";
+filePathInOutDirectory = "/test.txt";
+
+var stream = ss.createStream();
+
+stream = orca
+    .podCall("readFileStream", filePathInOutDirectory)
+    .then((stream, response) => {
+        console.log("stream value", stream);
+        stream.pipe(fs.createWriteStream(nameofFileToStream));
+
+        console.log("logging response", response);
+    })
+    .catch((error) => {
+        console.log("stream error", error);
+    });
+```
+
+### Debugging
+<Note> Below command can be run on the system where ORCA is running</Note>
+####  How OPC can see what pods are being running in the orca VM?
+    podman commands which can use for list pod, list the containers and so on.
+	```bash Terminal
+    podman pod ls - List all the available Pods
+	podman ps - List all the Running Container
+	podman log <container-name> - Check the logs for container
+	podman exec -it <container-name/id> bash - To exec inside the containers
+	```
+####  How OPC can use local podman container images?
+    In the developement process user need to update the code frequently. So they can build the container image and store it locally.
+    ```bash Terminal
+    podman build -t <image-name:tag> <path-to-dockerfile>
+    ```
+	
