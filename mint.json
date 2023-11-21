@@ -52,12 +52,16 @@
                         "onboarding/orca-node-operator",
                         "onboarding/orca-pod-creator"
                     ]
-                },
-                {
-                    "group": "Guides",
-                    "pages": ["guides/orca-koii-dev"]
                 }
             ]
+        },
+        {
+            "group": "Integrators",
+            "pages": ["integrators/koii-orca"]
+        },
+        {
+            "group": "Users",
+            "pages": ["users/orca"]
         }
     ],
     "footerSocials": {
