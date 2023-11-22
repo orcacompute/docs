@@ -45,23 +45,14 @@
             "pages": [
                 "introduction",
                 "architecture",
-                {
-                    "group": "Onboarding",
-                    "pages": [
-                        "onboarding/overview",
-                        "onboarding/orca-node-operator",
-                        "onboarding/orca-pod-creator"
-                    ]
-                }
+                "orcaNode",
+                "orcaPod"
             ]
+
         },
         {
-            "group": "Integrators",
-            "pages": ["integrators/koii-orca"]
-        },
-        {
-            "group": "Users",
-            "pages": ["users/orca"]
+            "group": "Orca Decentralized Kubernetes",
+            "pages": ["orca-kubernetes/orca"]
         }
     ],
     "footerSocials": {
