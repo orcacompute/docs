@@ -1,0 +1,22 @@
+---
+title: "Architecture"
+description: "Details of ORCA as service"
+---
+
+<Frame>
+    <img src="/images/orcasequencediagram.png" style={{ borderRadius: "0.5rem" }} />
+</Frame>
+
+### What is Orca Node?
+Orca Node is a simple orchestrator and a mediator between. Orca Pulse(Js Library to communicate with Orca) and Orca Pod(user containers).
+It creates Orca Pod after succesfully connecting with Orca Pulse client.It relays the communication between Orca Pulse and Orca Pod.
+
+### What is Orca Pulse?
+Orca Pulse is a Javascript Library used to communicate with Orca Node.
+Its has a function called podCall ```("your/api/endpoint",{headers:{},body:{}})``` which is used to make the http request in the container.
+It is responsible to share the user container image with Orca to create Orca Pod(user container) and send requests to execute the required api's inside the container. 
+
+### What is Orca Pod?
+Orca Pod is the user container which conatins the user code and is responsible for executing the requests recieved to run the api endpoints. 
+The user needs to create a POST `/healthz` endpoint which returns (status 200) in their container image.
+Then the user can load any POST api in the container and execute their logic  

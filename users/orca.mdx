@@ -1,0 +1,46 @@
+---
+title: "How to use ORCA"
+description: "Instructions of how to use ORCA?"
+---
+
+## Objective
+
+ORCA is way where user can come to deploy their compute tasks/workloads in the Decentralize Compute NetworK using the just help of the Custom Resource Defination and Custom Resource two most advance and useful resources of the kubernetes.
+
+Follow the given instructions:
+
+### Steps
+
+-   Go to this website to create new user
+-   Click on `create user` button, and fill the form and sumbit it.
+-   After creating user successfully, Log in to get the cluster credentials.
+-   Once you logged in, Get `kubeconfig` of your newly created decentrized kuberntes cluster.
+-   Start creating CRs for creating ORCA resources. e.g KoiiPod
+    <Info>
+        **KoiiPod**: It is custom resource provided by the ORCA, which creates
+        the a task in the KOII network using the help of the user image and
+        taskid geven by the user in the custom resource.
+    </Info>
+
+### Example:
+
+Simply change the given properties value and save it in a file e.g. `example.yml` .
+
+```yaml YAML
+apiVersion: operator.orca.io/v1alpha
+kind: KoiiPod
+metadata:
+    name: example
+    namespace: <namespace>
+spec:
+    taskid: <taskid>
+    userImageUrl: <userImageUrl>
+```
+
+Run the following the command to create the `KoiiPod`.
+
+```bash Terminal
+kubectl apply -f example.yaml
+```
+
+After this this task is added in the task queue, will get deployed in the Node Operator.
