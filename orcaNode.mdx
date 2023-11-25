@@ -1,6 +1,6 @@
 ---
-title: "ORCA Node Operator"
-description: "In this tutorial you'll learn how to set up the ORCA Node Operator"
+title: "How to run your own OrcaNode"
+description: "This tutorial will guide you that how to run your own OrcaNode."
 ---
 
 ## 1. Installing Podman
@@ -8,15 +8,14 @@ description: "In this tutorial you'll learn how to set up the ORCA Node Operator
 Podman is a containerization tool similar to Docker but focuses on providing a more secure and rootless container environment. Here's how you can install it according to your system preferences.
 
 ### Prerequisites
-1.  Virtualisation must be enable in the system
+1.  Virtualization must be enabled in the system
 
 
 <Tabs>
     <Tab title="Linux (Ubuntu)">
         <Note>The podman package is available in the official repositories for Ubuntu 20.10 and newer.</Note>
 
-        Open a terminal on your Ubuntu system.<br />
-        Update the package list to ensure you have the latest information about available packages:
+        Open a terminal on your Ubuntu system and Update the package list to ensure you have the latest information about available packages:
         ```bash Terminal
         # Ubuntu 20.10 and newer
         sudo apt-get update
@@ -27,7 +26,7 @@ Podman is a containerization tool similar to Docker but focuses on providing a m
         sudo apt-get install podman -y
         ```
 
-        After the installation is complete, you can verify the installation by checking the Podman version:
+        After the installation is complete, Verify the installation by checking the Podman version:
         ```bash Terminal
         podman --version
         ```
@@ -38,12 +37,12 @@ Podman is a containerization tool similar to Docker but focuses on providing a m
         ```
 
         Start podman machine named `orca`
-        <Warning>You might get this error, if you did not enable **Virtualisation** in your system `Getting error (Error: exec: "qemu-system-x86_64": executable file not found in $PATH) Issue`.</Warning>
+        <Warning>You might get this error, if **Virtualization** did not enable in your system `Getting error (Error: exec: "qemu-system-x86_64": executable file not found in $PATH) Issue`.</Warning>
 
-        Enabling virtulisation: <br />
-            1. To verify, you can check virtulisation status using below command  <br />
+        Enabling Virtualization: <br />
+            1. To verify, Virtualization status can be checke using the following command  <br />
                 `sudo dmesg | grep kvm` <br />
-                It will say kvm: disabled by bios if the setting is disabled  <br />
+                The output will look like: kvm: disabled by bios if the setting is disabled  <br />
             2. Then, run following command to enable it<br />
                 `sudo modprobe kvm-intel` <br />
                 if it is also keep giving the following error -  `could not insert 'kvm_intel': Operation not supported` <br />
@@ -70,7 +69,7 @@ Podman is a containerization tool similar to Docker but focuses on providing a m
         ```bash Terminal
         brew install podman
         ```
-        You can then verify the installation information using following command:
+        Verify the installation status using following command:
 
         ```bash Terminal
         podman --version
@@ -111,7 +110,7 @@ Podman is a containerization tool similar to Docker but focuses on providing a m
         podman machine start orca
         ```
 
-        <Note>You can check out the [Podman for Windows guide](https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md) for setup and usage instructions.</Note>
+        <Note>Check out the [Podman for Windows guide](https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md) for setup and usage instructions.</Note>
     </Tab>
 
 </Tabs>
@@ -122,33 +121,3 @@ To install gvproxy in the Ubuntu just run following command:
 ```bash Terminal
     sudo wget https://github.com/containers/gvisor-tap-vsock/releases/download/v0.6.2/gvproxy-linux -O /usr/libexec/podman/gvproxy && sudo chmod +x /usr/libexec/podman/gvproxy 
         ```
-
-## 2. ORCA
-ORCA is JS library it can be install as other NPM package. You will need access to download it, since it is private NPM package.
-
-<Note> NodeJS must be installed </Note>
-
-Get username and password from the administatrator. Login in to the NPM repository. 
-```bash Terminal
-npm login --scope=@chaindeck --auth-type=legacy --registry https://npm.pkg.github.com
-```
-
-#### Installing ORCA
-Run to following command to save and install ORCA NPM package
-
-```bash Terminal
-npm i --save @chaindeck/orca
-```
-
-#### Using ORCA
-```javascript JavaScript
-const {Orca} = require('@chaindeck/orca')
-
-// Create an instance of ORCA
-orca = new Orca()
-
-// Call the initalize funtion to start the ORCA
-orca.initalize()
-```
-
-
